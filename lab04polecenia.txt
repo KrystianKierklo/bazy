@@ -1,0 +1,28 @@
+LAB 04
+zad.1
+b) 
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk1;
+ALTER TABLE przetowry DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE przetowry DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE postac MODIFY id_postaci INT;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+zad.2 
+a)
+ALTER TABLE postac ADD pesel VARCHAR(11) NOT NULL;
+UPDATE postac SET pesel='78945612345'+id_postaci;
+ALTER TABLE postac ADD PRIMARY KEY(pesel);
+
+b)
+ALTER TABLE postac MODIFY rodzaj enum('wiking','ptak','kobieta','syrena');
+
+c)
+INSERT INTO postac VALUES(9,'Gertruda','syrena','2000-10-10','20','NULL','45612378945');
+
+zad.3
+a)
+SELECT nazwa FROM postac WHERE nazwa LIKE '%a%';
+UPDATE postac SET statek="oseberg" WHERE nazwa LIKE '%a%';
+b)
+ALTER TABLE statek MODIFY max_ladownosc FLOAT;
+UPDATE statek SET max_ladownosc=max_ladownosc*0.7;
