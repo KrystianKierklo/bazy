@@ -26,3 +26,48 @@ UPDATE postac SET statek="oseberg" WHERE nazwa LIKE '%a%';
 b)
 ALTER TABLE statek MODIFY max_ladownosc FLOAT;
 UPDATE statek SET max_ladownosc=max_ladownosc*0.7;
+c)
+ALTER TABLE postac ADD CHECK (wiek<1001);
+zad.4
+a)
+ALTER TABLE postac MODIFY rodzaj enum('wiking','ptak','kobieta','syrena','waz');
+INSERT INTO postac VALUES(15,'loko','waz','2005-10-10','default','12345678911',NULL);
+b)
+CREATE TABLE marynarz SELECT * FROM postac;
+DELETE FROM marynarz WHERE nazwa='loko';
+
+zad.5
+a)UPDATE postac SET statek=NULL;
+b) DELETE FROM postac WHERE nazwa='alvi';
+c) DELETE FROM statek;
+d) ALTER TABLE student DROP FOREIGN KEY postac_ibfk_1
+   DROP TABLE statek;
+e)CREATE TABLE zwierz (id_zwierza INT PRIMARY KEY AUTO_INCREMENT, nazwa VARCHAR(50), wiek INT);
+f)INSERT INTO zwierz SELECT id_postaci,nazwa,wiek FROM postac;
+
+
+LAB05
+
+zad.1
+a)
+CREATE TABLE kreatura SELECT * FROM wikinkowie.kreatura;
+CREATE TABLE zasob SELECT * FROM wikingowie.zasob;
+CREATE TABLE ekwipunek SELECT * FROM wikingowie.ekwipunek;
+b) SELECT * FROM zasob;
+c) SELECT rodzaj='jedzenie' FROM zasob;
+d) SELECT idZasobu, ilosc from ekwipunek WHERE idKreatury IN(1,3,5);
+
+zad.2
+a)SELECT * FROM kreatura WHERE rodzaj!='wiedzma' and udzwig>=50;
+b)SELECT * FROM zasob WHERE waga BETWEEN 2 AND 5;
+c)SELECT * FROM kreatura WHERE nazwa LIKE '%or%' AND udzwig BETWEEN 30 AND 70;
+
+zad.3
+a)
+b)SELECT * FROM zasob WHERE rodzaj != '' ORDER BY waga ASC;
+c)SELECT * FROM kreatura ORDER BY dataUr ASC limit 5;
+
+zad.4 
+a)SELECT DISTINCT rodzaj FROM zasob;
+b)SELECT CONCAT (nazwa," - ",rodzaj) FROM kreatura;
+c)
