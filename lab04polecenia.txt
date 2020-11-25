@@ -69,5 +69,21 @@ c)SELECT * FROM kreatura ORDER BY dataUr ASC limit 5;
 
 zad.4 
 a)SELECT DISTINCT rodzaj FROM zasob;
-b)SELECT CONCAT (nazwa," - ",rodzaj) FROM kreatura;
-c)
+b)SELECT CONCAT (nazwa," - ",rodzaj) FROM kreatura WHERE rodzaj LIKE 'wi%';
+c)SELECT nazwa, ilosc*waga AS waga_calkowita FROM zasob WHERE year(dataPozyskania) BETWEEN 2000 and 2007;
+zad.5
+a)
+b)SELECT nazwa FROM zasob WHERE rodzaj IS NULL;
+c)SELECT DISTINCT rodzaj, nazwa FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE  '%os' ORDER BY rodzaj ASC;
+
+LAB06
+
+zad.1
+a)SELECT avg(waga) FROM kreatura WHERE rodzaj='wiking';
+b)SELECT rodzaj,COUNT(nazwa) FROM kreatura GROUP BY rodzaj;
+  SELECT rodzaj, AVG(waga) as 'sredniaWaga', COUNT(nazwa) AS 'liczbaKreatur' FROM kreatura GROUP BY rodzaj;
+c)SELECT rodzaj,round(AVG(year(current_timestamp)-year(dataUr))) AS 'sredni wiek' FROM kreatura GROUP BY rodzaj ;
+zad.2
+a)SELECT rodzaj, SUM(waga*ilosc) FROM zasob GROUP BY rodzaj;
+b)SELECT nazwa, AVG(waga) FROM zasob GROUP BY nazwa HAVING AVG(waga)>10 AND SUM(ilosc)>=4;
+c)SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj;
