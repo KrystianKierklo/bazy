@@ -87,3 +87,15 @@ zad.2
 a)SELECT rodzaj, SUM(waga*ilosc) FROM zasob GROUP BY rodzaj;
 b)SELECT nazwa, AVG(waga) FROM zasob GROUP BY nazwa HAVING AVG(waga)>10 AND SUM(ilosc)>=4;
 c)SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj;
+zad.3
+a)SELECT k.nazwa, e.idZasobu, e.ilosc FROM kreatura k, ekwipunek e WHERE k.idKreatury=e.idKreatury;
+b)SELECT k.nazwa, z.nazwa, e.ilosc from kreatura as k, zasob as z, ekwipunek as e where k.idKreatury=e.idKreatury and z.idZasobu=e.idZasobu;
+c) SELECT * FROM kreatura k LEFT JOIN ekwipunek e ON k.idKreatury=e.idKreatury;SELECT * FROM kreatura k LEFT JOIN ekwipunek e ON k.idKreatury=e.idKreatury WHERE e.idKreatury IS NULL;
+zad.4
+a)SELECT k.nazwa,z.nazwa FROM kreatura k, ekwipunek e, zasob z where k.idKreatury=e.idKreatury and e.idZasobu=z.idZasobu and year(dataUr) between 1670 and 1680;
+b)SELECT k.nazwa FROM kreatura AS k, ekwipunek AS e, zasob AS z WHERE k.idKreatury=e.idKreatury AND e.idZasobu=z.idZasobu AND z.rodzaj='jedzenie' ORDER BY k.dataUr DESC LIMIT 5;
+c)SELECT concat(k1.nazwa,' - ',k2.nazwa) from kreatura k1, kreatura k2 where k1.idKreatury=k2.idKreatury+5;
+zad.5
+a)select k.rodzaj, avg(e.ilosc*z.waga) as srednia from kreatura as k inner join ekwipunek as e inner join zasob as z on k.idKreatury=e.idKreatury
+and e.idZasobu=z.idZasobu where k.rodzaj NOT IN('malpa', 'waz') group by k.rodzaj having sum(e.ilosc)<30;
+b)
