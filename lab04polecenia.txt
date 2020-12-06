@@ -63,7 +63,7 @@ b)SELECT * FROM zasob WHERE waga BETWEEN 2 AND 5;
 c)SELECT * FROM kreatura WHERE nazwa LIKE '%or%' AND udzwig BETWEEN 30 AND 70;
 
 zad.3
-a)
+a)select * from zasob where month(dataPozyskania) IN (7,8)
 b)SELECT * FROM zasob WHERE rodzaj != '' ORDER BY waga ASC;
 c)SELECT * FROM kreatura ORDER BY dataUr ASC limit 5;
 
@@ -72,7 +72,7 @@ a)SELECT DISTINCT rodzaj FROM zasob;
 b)SELECT CONCAT (nazwa," - ",rodzaj) FROM kreatura WHERE rodzaj LIKE 'wi%';
 c)SELECT nazwa, ilosc*waga AS waga_calkowita FROM zasob WHERE year(dataPozyskania) BETWEEN 2000 and 2007;
 zad.5
-a)
+a)SELECT nazwa, waga*0.7 AS waga_wlasciwa, waga*0.3 AS waga_odpadkow FROM zasob
 b)SELECT nazwa FROM zasob WHERE rodzaj IS NULL;
 c)SELECT DISTINCT rodzaj, nazwa FROM zasob WHERE nazwa LIKE 'Ba%' OR nazwa LIKE  '%os' ORDER BY rodzaj ASC;
 
@@ -98,4 +98,31 @@ c)SELECT concat(k1.nazwa,' - ',k2.nazwa) from kreatura k1, kreatura k2 where k1.
 zad.5
 a)select k.rodzaj, avg(e.ilosc*z.waga) as srednia from kreatura as k inner join ekwipunek as e inner join zasob as z on k.idKreatury=e.idKreatury
 and e.idZasobu=z.idZasobu where k.rodzaj NOT IN('malpa', 'waz') group by k.rodzaj having sum(e.ilosc)<30;
+b)select a.nazwa, a.rodzaj, a.dataUr from kreatura a, (SELECT min(dataUr) min, max(dataUr) max
+from kreatura group by rodzaj) b WHERE b.min = a.dataUr OR b.max=a.dataUr;
+
+LAB 07
+
+zad.1
+a)DELETE FROM kreatura;
+INSERT INTO kreatura SELECT * FROM wikingowie.kreatura;
+CREATE TABLE uczestnicy SELECT * FROM wikingowie.uczestnicy;
+CREATE TABLE etapy_wyprawy SELECT * FROM wikingowie.etapy_wyprawy;
+CREATE TABLE sektor SELECT * FROM wikingowie.sektor;
+CREATE TABLE wyprawa SELECT * FROM wikingowie.wyprawa;
+
+b)SELECT k.nazwa FROM kreatura AS k LEFT JOIN uczestnicy AS u ON k.idKreatury=u.id_uczestnika WHERE k.idKreatury IS NULL OR u.id_uczestnika IS NULL;
+c)SELECT w.nazwa, SUM(e.ilosc) FROM kreatura AS k, wyprawa AS w, uczestnicy AS u, ekwipunek AS e WHERE k.idKreatury=e.idKreatury AND k.idKreatury=u.id_uczestnika AND u.id_wyprawy=w.id_wyprawy GROUP BY w.nazwa;
+
+
+zad.2 
+a)SELECT w.nazwa,COUNT(u.id_uczestnika), GROUP_CONCAT(k.nazwa SEPARATOR ' ') FROM wyprawa AS w, uczestnicy AS u, kreatura AS k WHERE w.id_wyprawy=u.id_wyprawy AND u.id_uczestnika=k.idKreatury GROUP BY w.nazwa;
+b)
+
+zad.3
+a)SELECT id_sektora,COUNT(idEtapu) AS odwiedzony FROM sektor s LEFT JOIN etapy_wyprawy e ON e.sektor=s.id_sektora GROUP BY id_sektora ;
+b)SELECT nazwa ,IF(COUNT(id_uczestnika)>0,"bral udzial w wyprawie","nie bral udzialu w wyprawie") FROM kreatura LEFT JOIN uczestnicy ON idKreatury=id_uczestnika GROUP BY nazwa ;
+
+zad.4
+a)SELECT w.nazwa,SUM(length(et.dziennik)) FROM wyprawa w INNER JOIN etapy_wyprawy et ON w.id_wyprawy=et.idEtapu GROUP BY w.nazwa HAVING SUM(length(et.dziennik)) <400;
 b)
